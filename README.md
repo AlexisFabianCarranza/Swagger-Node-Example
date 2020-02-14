@@ -26,4 +26,4 @@ docker-compose ps
 ```
 5. Ingresar a la siguientes URL para probar la documentación y la api de libros: <br>
 a) [http://localhost:4000/books/](http://localhost:4000/books/) <br>
-b) [http://localhost:4000/api-docs](http://localhost:4000/apidocs) <br>
+b) [http://localhost:4000/api-docs](http://localhost:4000/api-docs) <br>
