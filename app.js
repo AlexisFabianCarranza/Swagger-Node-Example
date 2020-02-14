@@ -1,13 +1,40 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const booksRouter = require('./routes/books');
 
-var app = express();
+const app = express();
+// Swagger libreries
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+//Swagger Configuration
+const swaggerDefinition = {
+  info: {
+    title: 'API ejemplo para implementacion de Swagger',
+    version: '1.0.0',
+    description: 'API que devuelve libros disponibles',
+  },
+  host: 'localhost:4000',
+  basePath: '/',
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +47,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/books', booksRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

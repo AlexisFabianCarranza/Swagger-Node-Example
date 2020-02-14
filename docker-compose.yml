@@ -1,0 +1,8 @@
+version: "3"
+services:
+  swagger-node-example:
+    build: .
+    container_name: swagger-node-example
+    ports:
+      - "4000:4000"
+    restart: always
